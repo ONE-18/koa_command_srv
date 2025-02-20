@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "start": "ts-node server.ts",
     "build": "tsc",
-    "serve": "node dist/index.js"
+    "serve": "node server.js"
   },
   "keywords": [],
   "author": "",
@@ -13,9 +13,11 @@
   "description": "",
   "dependencies": {
     "@koa/router": "^13.1.0",
+    "dotenv": "^16.4.7",
     "koa": "^2.15.4"
   },
   "devDependencies": {
+    "@types/dotenv": "^6.1.1",
     "@types/koa__router": "^12.0.4",
     "@types/node": "^22.13.4",
     "ts-node": "^10.9.2",
