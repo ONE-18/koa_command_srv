@@ -1,0 +1,39 @@
+services:
+  frontend:
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+    env_file:
+      - .env
+    #   - REACT_APP_API_URL=http://localhost:8000
+    
+  backend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - mongo
+    env_file:
+      - .env
+    #   - DATABASE_URL=postgres://postgres:postgres@db:5432/postgres
+
+  mongo:
+    image: mongo:7.0.5
+    ports:
+      - 27017:27017
+    volumes:
+      - ${PWD}/mongo/data:/data/db
+      - ${PWD}/mongo/dumps:/data/dumps
+    env_file:
+      - .env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}

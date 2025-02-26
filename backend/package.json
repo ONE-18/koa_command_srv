@@ -19,7 +19,7 @@
     "@prisma/client": "^6.4.1"
   },
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "dev": "bun --watch src/index.ts",
     "build": "tsc",
     "lint": "eslint 'src/**/*.{ts,js}'",
     "format": "prettier --write 'src/**/*.{ts,js,json,md}'"
