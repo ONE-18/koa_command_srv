@@ -8,7 +8,7 @@ services:
     volumes:
       - ./frontend:/app
     env_file:
-      - .env
+      - ./frontend/.env
     #   - REACT_APP_API_URL=http://localhost:8000
     
   backend:
@@ -20,20 +20,21 @@ services:
     volumes:
       - ./backend:/app
     depends_on:
-      - mongo
+      - mongodb
     env_file:
-      - .env
+      - ./backend/.env
     #   - DATABASE_URL=postgres://postgres:postgres@db:5432/postgres
 
-  mongo:
-    image: mongo:7.0.5
+  mongodb:
+    image: mongo:latest
+    container_name: mongo
+    restart: always
     ports:
-      - 27017:27017
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: randompassword
     volumes:
       - ${PWD}/mongo/data:/data/db
       - ${PWD}/mongo/dumps:/data/dumps
-    env_file:
-      - .env
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USER}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+    command: ["--auth"]
