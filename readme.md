@@ -5,3 +5,5 @@ Esta apliación permite gestionar y configurar endpoints de una API desde un pan
 El panel de administración permite relacionar cada dirección con uno o varios comandos de shell.
 
 Toda petición a la API necesita el uso de de un token de seguridad, excepto `/admin`, que utiliza usuario y contraseña.
+
+Un mismo endpoint puede desencadenar distintas acciones dependiendo del tipo de petición realizada.

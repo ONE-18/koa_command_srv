@@ -1,4 +1,3 @@
-// import mongoose from 'mongoose';
 const mongoose = require('mongoose');
 
 enum UserType {
@@ -6,12 +5,12 @@ enum UserType {
   USER = 'USER',
 }
 
-export enum Language {
+ enum Language {
   SH = 'sh',
   JS = 'js',
 }
 
-export enum PetitionType {
+ enum PetitionType {
   GET = 'GET',
   HEAD = 'HEAD',
   PUT = 'PUT',
@@ -31,7 +30,7 @@ const usuarioSchema = new mongoose.Schema({
   },
 });
 
-export const User = mongoose.model('User', usuarioSchema);
+ const User = mongoose.model('User', usuarioSchema);
 
 const endpointSchema = new mongoose.Schema({
   rute: String,
@@ -43,7 +42,7 @@ const endpointSchema = new mongoose.Schema({
   authentication: String,
 });
 
-export const Endpoint = mongoose.model('Endpoint', endpointSchema);
+ const Endpoint = mongoose.model('Endpoint', endpointSchema);
 
 const scriptSchema = new mongoose.Schema({
   name: String,
@@ -63,6 +62,6 @@ const scriptSchema = new mongoose.Schema({
   },
 });
 
-export const Script = mongoose.model('Script', scriptSchema);
+ const Script = mongoose.model('Script', scriptSchema);
 
-// module.exports = { User, Endpoint, Script, UserType, Language, PetitionType };
+export { User, Endpoint, Script, UserType, Language, PetitionType };
