@@ -38,9 +38,8 @@ export const corsMiddleware = (listAllowedSites:Array<string>, excludedEndpointL
       }
     },
 
-    // Allow only GET requests
-    allowMethods: 'GET' //,HEAD,PUT,POST,DELETE,PATCH,OPTIONS
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS'
   }
-  
+
   return cors(corsOptions)
 }

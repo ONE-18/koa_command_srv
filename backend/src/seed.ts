@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { User, Endpoint, Script, UserType, ScriptType } = require('./models');
+const { User, Endpoint, Script, UserType, Language, PetitionType } = require('./models');
 
 async function insertaciones() {
 
@@ -19,7 +19,8 @@ async function insertaciones() {
 
     const endpoint = new Endpoint({
         rute: '/api/v1',
-        authentication: 'Bearer'
+        authentication: 'Bearer',
+        petitionType: PetitionType.POST,
     });
 
     await endpoint.save();
@@ -27,7 +28,7 @@ async function insertaciones() {
     const script = new Script({
         name: 'script1',
         code: 'console.log("Hola mundo")',
-        type: ScriptType.JS,
+        language: Language.JS,
         userId: user._id,
         endpointId: endpoint._id
     });
@@ -45,7 +46,7 @@ async function insertaciones() {
     const script2 = new Script({
         name: 'script2',
         code: 'echo "Hola mundo"',
-        type: ScriptType.SH,
+        language: Language.SH,
         userId: user2._id,
         endpointId: endpoint._id
     });
