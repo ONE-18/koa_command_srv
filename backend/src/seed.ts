@@ -41,7 +41,7 @@ async function insertaciones() {
         password: 'user',
         email: 'test2@test.com',
         type: UserType.USER,
-        idioms: Idioms.ES,
+        idiom: Idioms.ES,
     });
 
     await user2.save();
@@ -70,7 +70,7 @@ async function insertar() {
 }
 
 async function consultaciones() {
-    await mongoose.connect('mongodb://root:randompassword@mongodb/appDev?authSource=admin')
+    await mongoose.connect('mongodb://root:randompassword@mongodb/appDev?authSource=admin') // TODO: use .env
     .then(() => console.log('Conectado a MongoDB'))
     .catch((err: string) => console.error('Error al conectar:', err));
 

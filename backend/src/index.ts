@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { insertar, consultar } = require('./seed');
 const { corsMiddleware } = require('./middlewares/corsMiddleware');
-const config = require('./.config');
+const config = require('./config.ts');
 import bodyParser from 'koa-bodyparser';
 
 
@@ -26,3 +26,8 @@ const app = new Koa();
 
 app.use(bodyParser());
 app.use(corsMiddleware(config.CORS_SYSTEMAPI_ALLOWED_ORIGINS, config.CORS_SYSTEMAPI_EXCLUDED_ENDPOINTS));
+
+app.listen(config.PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${config.PORT}`);
+});
+
