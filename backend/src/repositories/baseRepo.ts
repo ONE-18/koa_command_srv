@@ -1,7 +1,7 @@
 // repositories/BaseRepository.ts
-import { Model, Document } from "mongoose";
+import { Model} from "mongoose";
 
-export class BaseRepository<T extends Document> {
+export class BaseRepository<T> {
   public model: Model<T>;
 
   constructor(model: Model<T>) {
@@ -27,4 +27,5 @@ export class BaseRepository<T extends Document> {
   async delete(id: string): Promise<void> {
     await this.model.findByIdAndDelete(id).exec();
   }
+
 }

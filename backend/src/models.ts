@@ -1,11 +1,16 @@
 const mongoose = require('mongoose');
 
+enum Idioms {
+  ES = 'es',
+  EN = 'en',
+}
+
 enum UserType {
   ADMIN = 'ADMIN',
   USER = 'USER',
 }
 
- enum Language {
+enum Language {
   SH = 'sh',
   JS = 'js',
 }
@@ -23,14 +28,21 @@ enum UserType {
 const usuarioSchema = new mongoose.Schema({
   name: String,
   password: String,
+  email: String,
   type: {
     type: String,
     enum: UserType,
     required: true,
   },
+  idiom: {
+    type: String,
+    enum: Idioms,
+    required: true,
+  },
 });
+usuarioSchema.path('idiom').default(Idioms.ES);
 
- const User = mongoose.model('User', usuarioSchema);
+const MUser = mongoose.model('MUser', usuarioSchema);
 
 const endpointSchema = new mongoose.Schema({
   rute: String,
@@ -42,7 +54,7 @@ const endpointSchema = new mongoose.Schema({
   authentication: String,
 });
 
- const Endpoint = mongoose.model('Endpoint', endpointSchema);
+const MEndpoint = mongoose.model('MEndpoint', endpointSchema);
 
 const scriptSchema = new mongoose.Schema({
   name: String,
@@ -62,6 +74,6 @@ const scriptSchema = new mongoose.Schema({
   },
 });
 
- const Script = mongoose.model('Script', scriptSchema);
+const MScript = mongoose.model('MScript', scriptSchema);
 
-export { User, Endpoint, Script, UserType, Language, PetitionType };
+export { MUser, MEndpoint, MScript, UserType, Language, PetitionType, Idioms };

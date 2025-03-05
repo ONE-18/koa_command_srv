@@ -1,31 +1,32 @@
 const mongoose = require('mongoose');
-const { User, Endpoint, Script, UserType, Language, PetitionType } = require('./models');
+const { MUser, MEndpoint, MScript, UserType, Language, PetitionType, Idioms} = require('./models');
 
 async function insertaciones() {
 
-    await User.deleteMany({}); // Borra todos los documentos de la colección Usuarios
-    await Endpoint.deleteMany({}); // Borra todos los documentos de la colección Endpoints
-    await Script.deleteMany({}); // Borra todos los documentos de la colección Scripts
+    await MUser.deleteMany({}); // Borra todos los documentos de la colección Usuarios
+    await MEndpoint.deleteMany({}); // Borra todos los documentos de la colección Endpoints
+    await MScript.deleteMany({}); // Borra todos los documentos de la colección Scripts
 
     console.log('Todos los usuarios han sido eliminados');
   
-    const user = new User({
+    const user = new MUser({
         name: 'admin',
         password: 'admin',
+        email: 'mail@test.com',
         type: UserType.ADMIN
     });
 
     await user.save();
 
-    const endpoint = new Endpoint({
+    const endpoint = new MEndpoint({
         rute: '/api/v1',
-        authentication: 'Bearer',
-        petitionType: PetitionType.POST,
+        petitionType: PetitionType.GET,
+        authentication: 'Bearer'
     });
 
     await endpoint.save();
 
-    const script = new Script({
+    const script = new MScript({
         name: 'script1',
         code: 'console.log("Hola mundo")',
         language: Language.JS,
@@ -35,15 +36,17 @@ async function insertaciones() {
 
     await script.save();
 
-    const user2 = new User({
+    const user2 = new MUser({
         name: 'user',
         password: 'user',
-        type: UserType.USER
+        email: 'test2@test.com',
+        type: UserType.USER,
+        idioms: Idioms.ES,
     });
 
     await user2.save();
 
-    const script2 = new Script({
+    const script2 = new MScript({
         name: 'script2',
         code: 'echo "Hola mundo"',
         language: Language.SH,
@@ -71,13 +74,13 @@ async function consultaciones() {
     .then(() => console.log('Conectado a MongoDB'))
     .catch((err: string) => console.error('Error al conectar:', err));
 
-    const users = await User.find();
+    const users = await MUser.find();
     console.log('Usuarios:', users);
 
-    const endpoints = await Endpoint.find();
+    const endpoints = await MEndpoint.find();
     console.log('Endpoints:', endpoints);
 
-    const scripts = await Script.find();
+    const scripts = await MScript.find();
     console.log('Scripts:', scripts);
 }
 
