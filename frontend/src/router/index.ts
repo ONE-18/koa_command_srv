@@ -18,9 +18,9 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue'),
     },
     { path: '/Login', component: () => import('@/views/Login.vue') },
-    { path: '/Scripts', component: () => import('@/views/AboutView.vue') },
-    { path: '/Endpoints', component: () => import('@/views/AboutView.vue') },
-    { path: '/Logs', component: () => import('@/views/AboutView.vue') },
+    { path: '/Scripts', component: () => import('@/views/Scripts.vue') },
+    { path: '/Endpoints', component: () => import('@/views/Endpoints.vue') },
+    { path: '/Logs', component: () => import('@/views/Logs.vue') },
     { path: '/Profile', component: () => import('@/views/Profile.vue') },
   ],
 })

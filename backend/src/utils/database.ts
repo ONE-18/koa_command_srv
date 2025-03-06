@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import {MScript} from '../models';
+import {MScript, MUser} from '../models';
 
 class Database {
     public constructor() {}
@@ -30,8 +30,15 @@ class Database {
     }
 
     static async getScriptById(id: string): Promise<any> {
-        
         return await MScript.find({ userID: ''}).findById(id);
+    }
+
+    static async getUserByMail(email: string): Promise<any> {
+        return await MUser.find({ email: email });
+    }
+
+    static async checkUser(email: string, password: string): Promise<boolean> {
+        return await MUser.exists({ email: email, password: password });
     }
 }
 
