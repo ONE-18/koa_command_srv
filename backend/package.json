@@ -9,6 +9,7 @@
     "@types/bun": "latest",
     "@types/koa__cors": "^5.0.0",
     "@types/koa-bodyparser": "^4.3.12",
+    "@types/koa-router": "^7.4.8",
     "@typescript-eslint/eslint-plugin": "^8.25.0",
     "@typescript-eslint/parser": "^8.25.0",
     "eslint": "^9.21.0",
@@ -26,6 +27,7 @@
     "@prisma/client": "^6.4.1",
     "koa": "^2.16.0",
     "koa-bodyparser": "^4.4.1",
+    "koa-router": "^13.0.1",
     "mongoose": "^8.11.0"
   },
   "scripts": {

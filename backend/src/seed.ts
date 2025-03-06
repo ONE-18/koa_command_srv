@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const { MUser, MEndpoint, MScript, UserType, Language, PetitionType, Idioms} = require('./models');
 
 async function insertaciones() {
@@ -70,18 +69,14 @@ async function insertar() {
 }
 
 async function consultaciones() {
-    await mongoose.connect('mongodb://root:randompassword@mongodb/appDev?authSource=admin') // TODO: use .env
-    .then(() => console.log('Conectado a MongoDB'))
-    .catch((err: string) => console.error('Error al conectar:', err));
-
     const users = await MUser.find();
-    console.log('Usuarios:', users);
+    // console.log('Usuarios:', users);
 
     const endpoints = await MEndpoint.find();
-    console.log('Endpoints:', endpoints);
+    // console.log('Endpoints:', endpoints);
 
     const scripts = await MScript.find();
-    console.log('Scripts:', scripts);
+    // console.log('Scripts:', scripts);
 }
 
 async function consultar() {

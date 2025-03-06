@@ -9,7 +9,7 @@ const CORS_SYSTEMAPI_EXCLUDED_ENDPOINTS: Array<string> = [
 ]
 
 // Port to run the server
-const PORT = 3000
+const PORT = 4000
 
 export {
   CORS_SYSTEMAPI_ALLOWED_ORIGINS,
