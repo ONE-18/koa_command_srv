@@ -8,7 +8,8 @@ class ScriptRepository extends BaseRepository<Script> {
     }
     
     async findByLanguage(language: string): Promise<Script[]> {
-        return this.model.find({ language }).exec();
+        const list = await this.model.find({ language }).exec();
+        return list ? list.map(script => script.toObject() as Script) : [];
     }
 }
 

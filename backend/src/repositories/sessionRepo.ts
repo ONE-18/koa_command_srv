@@ -13,6 +13,10 @@ class SessionRepository {
     deleteSession(token: string) {
         this.sessions.delete(token);
     }
+
+    getEmail(token: string): string {
+        return this.sessions.get(token) || '';
+    }
 }
 
 export const sessionRepository = new SessionRepository();

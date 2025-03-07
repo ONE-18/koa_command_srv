@@ -8,7 +8,8 @@ class EndpointRepository extends BaseRepository<Endpoint> {
   }
 
   async findByPetitionType(petitionType: string): Promise<Endpoint[]> {
-    return this.model.find({ petitionType }).exec();
+    const list = await this.model.find({ petitionType }).exec();
+    return list ? list.map(endpoint => endpoint.toObject() as Endpoint) : [];
   }
 }
 
