@@ -4,8 +4,8 @@ const { corsMiddleware } = require('./middlewares/corsMiddleware');
 const config = require('./config.ts');
 import routerAPI from './routes/apiV1.ts';
 import Database from './utils/database';
-import userMailCheck from './services/userMailCheck.ts';
 import userPasswCheck from './services/userPasswCheck.ts';
+// import { insertar, consultar } from './seed.ts';
 
 const db = new Database();
 db.connect();
@@ -35,14 +35,8 @@ app.listen(config.PORT, () => {
 });
 
 // TESTS:
-// console.log('Checking mail');
-if (await userMailCheck.checkMail('mail@test.com'))
-    console.log('Mail already in use');
-else
-    console.log('Mail not in use');
-
 // console.log('Checking password');
 if (await userPasswCheck.checkPassw('mail@test.com', 'admin'))
-    console.log('Password correct');
+    console.log('Login correct');
 else
-    console.log('Password incorrect');
+    console.log('Login incorrect');
