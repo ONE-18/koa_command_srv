@@ -70,13 +70,13 @@ async function insertar() {
 
 async function consultaciones() {
     const users = await MUser.find();
-    // console.log('Usuarios:', users);
+    console.log('Usuarios:', users);
 
     const endpoints = await MEndpoint.find();
-    // console.log('Endpoints:', endpoints);
+    console.log('Endpoints:', endpoints);
 
     const scripts = await MScript.find();
-    // console.log('Scripts:', scripts);
+    console.log('Scripts:', scripts);
 }
 
 async function consultar() {
@@ -90,4 +90,4 @@ async function consultar() {
     });
 }
 
-module.exports = { insertar, consultar };
+export { insertar, consultar };

@@ -47,7 +47,7 @@ enum PetitionType {
 
 const usuarioSchema = getUserSchema();
 
-const MUser = mongoose.model('MUser', usuarioSchema);
+const MUser = mongoose.model('User', usuarioSchema);
 
 // const endpointSchema = new mongoose.Schema({
 //   rute: String,
@@ -62,7 +62,7 @@ const MUser = mongoose.model('MUser', usuarioSchema);
 
 const endpointSchema = getEndpointSchema();
 
-const MEndpoint = mongoose.model('MEndpoint', endpointSchema);
+const MEndpoint = mongoose.model('Endpoint', endpointSchema);
 
 // const scriptSchema = new mongoose.Schema({
 //   name: String,
@@ -85,7 +85,8 @@ const MEndpoint = mongoose.model('MEndpoint', endpointSchema);
 
 const scriptSchema = getScriptSchema();
 
-const MScript = mongoose.model('MScript', scriptSchema);
+const MScript = mongoose.model('Script', scriptSchema);
+
 
 
 export { MUser, MEndpoint, MScript, UserType, Language, PetitionType, Idioms };

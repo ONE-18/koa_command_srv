@@ -13,7 +13,7 @@ interface LoginRequestBody {
 export const login = async (ctx: Context) => {
     const { email, password } = ctx.request.body as LoginRequestBody;
 
-    if (await userPasswCheck.checkPassw(email, password)) {
+    if (!await userPasswCheck.checkPassw(email, password)) {
         ctx.status = 401;
         ctx.body = { error: 'Invalid credentials' };
         return;
@@ -22,4 +22,5 @@ export const login = async (ctx: Context) => {
     const token = 'token_seguro';
     sessionRepository.createSession(token, email);
     ctx.body = { token };
+    ctx.status = 200;
 };
