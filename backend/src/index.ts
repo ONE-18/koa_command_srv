@@ -60,4 +60,4 @@ const testLogin = async (email: string, password: string) => {
 await testLogin('mail@test.com', 'noadmin');
 await testLogin('mail@test.com', 'admin');
 
-db.disconnect();
+// db.disconnect();

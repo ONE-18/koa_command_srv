@@ -3,29 +3,43 @@
     <h1>Iniciar Sesión</h1>
     <form @submit.prevent="handleLogin">
       <div class="form-group">
-        <label for="username">Usuario o Correo</label>
-        <input type="text" id="username" v-model="username" required />
+        <input v-model="email" placeholder="Correo" required />
       </div>
       <div class="form-group">
-        <label for="password">Contraseña</label>
-        <input type="password" id="password" v-model="password" required />
+        <input v-model="password" type="password" placeholder="Contraseña" required />
       </div>
-      <button type="submit">Ingresar</button>
+      <button @click="handleLogin">Login</button>
     </form>
+    <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import axios from 'axios'
+import { useRouter } from 'vue-router'
 
-const username = ref('')
+const email = ref('')
 const password = ref('')
+const errorMessage = ref('')
+const router = useRouter()
 
-const handleLogin = () => {
-  console.log('Usuario:', username.value)
-  console.log('Contraseña:', password.value)
-  // Aquí puedes agregar la lógica real de login
-  // Por ejemplo, enviar los datos a un servidor
+const handleLogin = async () => {
+  try {
+    // Realiza una solicitud POST al servidor para iniciar sesión
+    const response = await axios.post('http://localhost:4000/login', {
+      email: email.value,
+      password: password.value,
+    })
+    console.log(response.data)
+    // Almacena el token recibido en el localStorage del navegador
+    localStorage.setItem('token', response.data.token)
+    // Redirige al usuario a la ruta '/Scritps' después de iniciar sesión
+    router.push('/')
+  } catch (error) {
+    // Muestra un mensaje de error si la solicitud falla
+    errorMessage.value = 'Error al iniciar sesión. Por favor, verifica tus credenciales.'
+  }
 }
 </script>
 
@@ -64,5 +78,10 @@ button {
   border-radius: 5px;
   cursor: pointer;
   font-size: large;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 15px;
 }
 </style>
