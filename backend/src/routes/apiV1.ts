@@ -1,5 +1,7 @@
 import Router from 'koa-router';
 import Database from '../utils/database';
+import { authContrl } from '../controllers/authContrl';
+import { authMiddleware } from '../middlewares/authMiddleware';
 
 const routerAPI = new Router({ prefix: '/api/v1' });
 
@@ -10,18 +12,23 @@ routerAPI.get('/info', async (ctx: any) => {
     };
 });
 
-// routerAPI.post('/users/:email', async (ctx: any) => {
-//     const script = await Database.createScript(ctx.request.body);
-//     ctx.body = script;
-// });
+routerAPI.get('/scripts/:id', authMiddleware, async (ctx: any) => {
+    
+    const userID = await authContrl.getUserID(ctx.headers.authorization);
+    
+    console.log('userID', userID);
 
-routerAPI.get('/scripts/:id', async (ctx: any) => {
-    const script = await Database.getScriptById(ctx.params.id);
+    const script = await Database.getUserScriptById(userID, ctx.params.id);
+    
     ctx.body = script;
 });
 
-routerAPI.get('/scripts', async (ctx: any) => {
-    const scripts = await Database.getScripts();
+routerAPI.get('/scripts', authMiddleware, async (ctx: any) => {
+    const userID = await authContrl.getUserID(ctx.headers.authorization);
+    
+    console.log('userID', userID);
+    
+    const scripts = await Database.getUserScripts(userID);
     ctx.body = scripts;
 });
 

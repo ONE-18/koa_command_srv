@@ -25,15 +25,21 @@ class Database {
         }
     }
 
-    static async getScripts(): Promise<any> {
-        return await MScript.find();
+    static async getUserScripts(userID: string): Promise<typeof MScript[]> {
+        const all = await MScript.find();
+        console.log('all', all);
+        const ret = await MScript.find({ userID: userID}).exec();
+        console.log('id', userID);
+        console.log('ret', ret);
+        return ret;
+
     }
 
-    static async getScriptById(id: string): Promise<any> {
-        return await MScript.find({ userID: ''}).findById(id);
+    static async getUserScriptById(userID:string, id: string): Promise<typeof MScript> {
+        return await MScript.find({ userID: userID}).findById(id);
     }
 
-    static async getUserByMail(email: string): Promise<any> {
+    static async getUserByMail(email: string): Promise<typeof MUser> {
         return await MUser.find({ email: email });
     }
 

@@ -11,7 +11,7 @@ router.get('/', async (ctx) => {
 
 
 
-router.get('/login', login);
+router.post('/login', login);
 router.get('/profile', authMiddleware);
 router.get('/endpoints', authMiddleware);
 
