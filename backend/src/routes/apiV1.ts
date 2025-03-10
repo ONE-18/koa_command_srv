@@ -32,5 +32,13 @@ routerAPI.get('/scripts', authMiddleware, async (ctx: any) => {
     ctx.body = scripts;
 });
 
+routerAPI.get('/endpoint/:id', async (ctx: any) => {
+    const endId = ctx.params.id;
+    console.log('ID', endId);
+    const endp = await Database.getEndpoint(endId);
+    console.log('ID name', endId, endp);
+
+    ctx.body = endp;
+});
 
 export default routerAPI;

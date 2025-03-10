@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import {MScript, MUser} from '../models';
+import {MEndpoint, MScript, MUser} from '../models';
 
 class Database {
     public constructor() {}
@@ -28,7 +28,7 @@ class Database {
     static async getUserScripts(userID: string): Promise<typeof MScript[]> {
         const all = await MScript.find();
         console.log('all', all);
-        const ret = await MScript.find({ userID: userID}).exec();
+        const ret = await MScript.find({ userId: userID}).exec();
         console.log('id', userID);
         console.log('ret', ret);
         return ret;
@@ -36,7 +36,7 @@ class Database {
     }
 
     static async getUserScriptById(userID:string, id: string): Promise<typeof MScript> {
-        return await MScript.find({ userID: userID}).findById(id);
+        return await MScript.find({ userId: userID}).findById(id);
     }
 
     static async getUserByMail(email: string): Promise<typeof MUser> {
@@ -45,6 +45,10 @@ class Database {
 
     static async checkUser(email: string, password: string): Promise<boolean> {
         return await MUser.exists({ email: email, password: password });
+    }
+
+    static async getEndpoint(id: string): Promise<typeof MEndpoint> {
+        return await MEndpoint.findById(id).exec();
     }
 }
 

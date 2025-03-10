@@ -2,14 +2,14 @@ import { PetitionType } from "../models";
 
 export type Endpoint = {
   _id: string;
-  rute: string;
+  route: string;
   petitionType: PetitionType;
   authentication: string;
 }
 
 export const getEndpointSchema = () => {
   const endpointSchemaDefinition: Record<string, any> = {
-    rute: { type: String, required: true },
+    route: { type: String, required: true },
     petitionType: {
       type: String,
       enum: PetitionType,

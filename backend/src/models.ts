@@ -50,7 +50,7 @@ const usuarioSchema = getUserSchema();
 const MUser = mongoose.model('User', usuarioSchema);
 
 // const endpointSchema = new mongoose.Schema({
-//   rute: String,
+//   route: String,
 //   petitionType: {
 //     type: String,
 //     enum: PetitionType,
