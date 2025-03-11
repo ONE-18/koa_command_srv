@@ -24,3 +24,15 @@ export const login = async (ctx: Context) => {
     ctx.body = { token };
     ctx.status = 200;
 };
+
+export const logout = async (ctx: Context) => {
+  const authHeader = ctx.headers.authorization;
+  if (!authHeader) {
+    ctx.status = 401;
+    ctx.body = { error: 'Authorization header missing' };
+    return;
+  }
+  const token = authHeader.split(' ')[1];
+  sessionRepository.deleteSession(token);
+  ctx.status = 200;
+}

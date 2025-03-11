@@ -48,7 +48,7 @@ const logout = () => {
   console.log('Cerrar sesión')
   // Aquí puedes agregar la lógica real de logout
   // Por ejemplo, redirigir a la página de login
-  // TODO: Implementar logout
+  localStorage.removeItem('token')
   router.push('/login')
 }
 </script>
