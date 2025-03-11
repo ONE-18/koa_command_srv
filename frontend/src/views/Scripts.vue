@@ -8,7 +8,7 @@
           <tr>
             <th>Nombre</th>
             <th>Endpoint route</th>
-            <th>Endpoint petition</th>
+            <!-- <th>Endpoint petition</th> -->
             <th>Lenguaje</th>
           </tr>
         </thead>
@@ -19,13 +19,15 @@
                 {{ script.name }}
               </a>
             </td>
+
             <td>
               <a :href="`/Endpoints`">
-                {{ endpoints.find((endp) => endp._id == script.endpointId)?.route }}
+                {{ endpoints.find((endp) => script._id == endp.scriptId)?.route }}
               </a>
             </td>
-            <td>{{ endpoints.find((endp) => endp._id == script.endpointId)?.petitionType }}</td>
-            <!-- <td>{{ script.language }}</td> -->
+            
+            <!-- <td>{{ endpoints.find((endp) => endp._id == script._id)?.petitionType }}</td> -->
+            
             <td>{{ script.language }}</td>
           </tr>
         </tbody>
@@ -53,13 +55,13 @@ onMounted(async () => {
     console.error('Error fetching scripts:', error)
   }
 
-  // Get endpoint names from IDs
+  // Get endpoints by script IDs
   scripts.value.forEach(async (script) => {
     try {
-      const response = await axiosInstance.get(`/endpoint/${script.endpointId}`)
-      endpoints.value.push(response.data)
+      const response = await axiosInstance.get(`/endpoints?scriptId=${script._id}`)
+      endpoints.value.push(...response.data)
     } catch (error) {
-      console.error('Error fetching endpoint by id:', error)
+      console.error('Error fetching endpoints by script id:', error)
     }
     console.log('Endpoints:', endpoints.value)
   })

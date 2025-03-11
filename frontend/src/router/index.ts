@@ -23,7 +23,7 @@ const router = createRouter({
     { path: '/Endpoints', component: () => import('@/views/Endpoints.vue') },
     { path: '/Logs', component: () => import('@/views/Logs.vue') },
     { path: '/Profile', component: () => import('@/views/Profile.vue') },
-    { path: '/Editor', component: () => import('@/views/ScriptEditor.vue') },
+    { path: '/Editor/:scriptId', component: () => import('@/views/ScriptEditor.vue') },
   ],
 })
 

@@ -39,7 +39,7 @@ const endpoints = ref<Endpoint[]>([])
 onMounted(async () => {
   try {
     const response = await axiosInstance.get('/endpoints')
-    // console.log('Endpoints:', response.data)
+    console.log('Endpoints:', response.data)
 
     endpoints.value = response.data
   } catch (error) {

@@ -1,77 +1,91 @@
 <template>
-  <div class="script-editor">
-    <h1>{{ isEditMode ? 'Edit Script' : 'Create Script' }}</h1>
-    <form @submit.prevent="handleSubmit">
-      <div>
-        <label for="route">Route:</label>
-        <select id="route" v-model="script.endpointId" required>
-          <option v-for="endpoint in endpoints" :key="endpoint._id" :value="endpoint._id">
-            {{ endpoint.route }}
-          </option>
-        </select>
-      </div>
-      <div>
-        <label for="petitionType">Petition Type:</label>
-        <select id="petitionType" v-model="script.endpointId" required>
-          <option v-for="endpoint in endpoints" :key="endpoint._id" :value="endpoint._id">
-            {{ endpoint.petitionType }}
-          </option> <!-- TODO: make this dynamic -->
-          <option value="GET">GET</option>
-          <option value="POST">POST</option>
-          <option value="PUT">PUT</option>
-          <option value="DELETE">DELETE</option>
-        </select>
-      </div>
-      <div>
-        <label for="language">Language:</label>
-        <select id="language" v-model="script.language" required>
-          <option value="js">JavaScript</option>
-          <option value="sh">Shell</option>
-        </select>
-      </div>
-      <div>
-        <label for="content">Script:</label>
-        <textarea id="content" v-model="script.code" required></textarea>
-      </div>
-      <div>
-        <button type="submit">{{ isEditMode ? 'Update' : 'Create' }}</button>
-        <button v-if="isEditMode" @click.prevent="handleDelete">Delete</button>
-      </div>
-    </form>
-  </div>
+  <defaultLayout>
+    <div class="script-editor">
+      <h1>{{ isEditMode ? 'Edit Script' : 'Create Script' }}</h1>
+      <form @submit.prevent="handleSubmit">
+        <div>
+          <label for="route">Route:</label>
+          <select id="route" v-model="script._id" required>
+            <option v-for="endpoint in endpoints" :key="endpoint.scriptId" :value="endpoint._id">
+              {{ endpoint.route }}
+            </option>
+          </select>
+        </div>
+
+        <!-- <div>
+          <label for="petitionType">Petition Type:</label>
+          <select id="petitionType" v-model="script.endpointId" required>
+            <option v-for="endpoint in endpoints" :key="endpoint._id" :value="endpoint._id">
+              {{ endpoint.petitionType }}
+            </option>
+            <option value="GET">GET</option>
+            <option value="POST">POST</option>
+            <option value="PUT">PUT</option>
+            <option value="DELETE">DELETE</option>
+          </select>
+        </div> -->
+
+        <div>
+          <label for="language">Language:</label>
+          <select id="language" v-model="script.language" required>
+            <option value="js">JavaScript</option>
+            <option value="sh">Shell</option>
+          </select>
+        </div>
+        <div>
+          <label for="content">Script:</label>
+          <textarea id="content" v-model="script.code" required></textarea>
+        </div>
+
+        <div>
+          <button type="submit">{{ isEditMode ? 'Update' : 'Create' }}</button>
+          <button v-if="isEditMode" @click.prevent="handleDelete">Delete</button>
+        </div>
+      </form>
+    </div>
+  </defaultLayout>
 </template>
 
 <script setup lang="ts">
+import defaultLayout from '../layouts/defaultLayout.vue'
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axiosInstance from '../utils/axiosInstance'
 import type { Script } from '../types/Script'
 import type { Endpoint } from '../types/Endpoint'
+import DefaultLayout from '@/layouts/defaultLayout.vue'
 
 const route = useRoute()
 const router = useRouter()
 const isEditMode = ref(false)
+const endpoints = ref<Endpoint[]>([])
+
 const script = ref<Script>({
   _id: '',
   name: '',
+  userId: '',
   code: '',
   language: '',
-  endpointId: '',
-  userId: '',
-  __v: 0,
-})
-
-const endpoints = ref<Endpoint[]>([])
+  __v: 0
+  // ,  createdAt: '',
+  // updatedAt: ''
+});
 
 onMounted(async () => {
-  if (route.params.id) {
+  const scriptId = route.params.scriptId
+  console.log('Script ID:', scriptId)
+  if (scriptId) {
     isEditMode.value = true
     try {
-      const response = await axiosInstance.get(`/scripts/${route.params.id}`)
+      const response = await axiosInstance.get(`/scripts/${scriptId}`)
       script.value = response.data
+      console.log('Script:', script.value)
     } catch (error) {
       console.error('Error fetching script:', error)
     }
+  }
+  else {
+    console.log('Creating new script')
   }
   try {
     const response = await axiosInstance.get('/endpoints')
