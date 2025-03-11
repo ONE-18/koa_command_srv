@@ -58,6 +58,12 @@ const logout = () => {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  width: 100vw;
+  align-items: stretch;
+  box-sizing: border-box; /* Ensure padding and border are included in the width and height */
+  overflow-x: hidden; /* Prevent horizontal overflow */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
 }
 
 .header {
@@ -67,6 +73,8 @@ const logout = () => {
   padding: 10px;
   background: #333;
   color: white;
+  width: 100%;
+  box-sizing: border-box; /* Ensure padding is included in the width */
 }
 
 .icon-btn {
@@ -80,6 +88,7 @@ const logout = () => {
 .nav-buttons {
   display: flex;
   gap: 10px;
+  flex-wrap: wrap; /* Allow buttons to wrap to the next line if needed */
 }
 
 .nav-buttons a {
@@ -106,6 +115,7 @@ const logout = () => {
   flex-direction: column;
   gap: 5px;
   z-index: 1000;
+  box-sizing: border-box; /* Ensure padding is included in the width */
 }
 
 .menu a,
