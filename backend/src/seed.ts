@@ -20,7 +20,8 @@ async function insertaciones() {
     const endpoint = new MEndpoint({
         route: '/api/v1',
         petitionType: PetitionType.GET,
-        authentication: 'Bearer'
+        authentication: 'Bearer',
+        // status: true,
     });
 
     await endpoint.save();

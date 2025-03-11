@@ -5,6 +5,7 @@ export type Endpoint = {
   route: string;
   petitionType: PetitionType;
   authentication: string;
+  status: boolean;
 }
 
 export const getEndpointSchema = () => {
@@ -16,6 +17,7 @@ export const getEndpointSchema = () => {
       required: true,
     },
     authentication: { type: String, required: true },
+    status: { type: Boolean, required: true, default: true },
   };
 
   return endpointSchemaDefinition;
