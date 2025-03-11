@@ -14,9 +14,18 @@
         </thead>
         <tbody>
           <tr v-for="script in scripts" :key="script._id">
-            <td>{{ script.name }}</td>
-            <td>{{ endpoints.find((endp) => endp._id == script.endpointId)?.route }}</td>
+            <td>
+              <a :href="`/Editor/${script._id}`">
+                {{ script.name }}
+              </a>
+            </td>
+            <td>
+              <a :href="`/Endpoints`">
+                {{ endpoints.find((endp) => endp._id == script.endpointId)?.route }}
+              </a>
+            </td>
             <td>{{ endpoints.find((endp) => endp._id == script.endpointId)?.petitionType }}</td>
+            <!-- <td>{{ script.language }}</td> -->
             <td>{{ script.language }}</td>
           </tr>
         </tbody>
