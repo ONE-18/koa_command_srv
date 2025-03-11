@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import TheWelcome from '../components/TheWelcome.vue'
-import defaultLayout from '../layouts/defaultLayout.vue';
+import defaultLayout from '../layouts/defaultLayout.vue'
 </script>
 
 <template>
@@ -10,3 +10,7 @@ import defaultLayout from '../layouts/defaultLayout.vue';
     </main>
   </default-layout>
 </template>
+
+<style scoped>
+
+</style>
