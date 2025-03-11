@@ -18,25 +18,25 @@ async function insertaciones() {
     });
 
     await user.save();
-
-    const endpoint = new MEndpoint({
-        route: '/api/v1',
-        petitionType: PetitionType.GET,
-        authentication: 'Bearer',
-        // status: true,
-    });
-
-    await endpoint.save();
-
+    
     const script = new MScript({
         name: 'script1',
         code: 'console.log("Hola mundo")',
         language: Language.JS,
         userId: user._id,
-        endpointId: endpoint._id
     });
 
     await script.save();
+
+    const endpoint = new MEndpoint({
+        route: '/api/v1',
+        petitionType: PetitionType.GET,
+        authentication: 'Bearer',
+        scriptId: script._id,
+        // status: true,
+    });
+
+    await endpoint.save();
 
     const user2 = new MUser({
         name: 'user',
@@ -53,7 +53,6 @@ async function insertaciones() {
         code: 'echo "Hola mundo"',
         language: Language.SH,
         userId: user._id,
-        endpointId: endpoint._id
     });
 
     await script2.save();

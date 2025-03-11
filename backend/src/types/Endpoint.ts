@@ -7,7 +7,7 @@ export type Endpoint = {
   petitionType: PetitionType;
   authentication: string;
   status: boolean;
-  scriptID: Script["_id"];
+  scriptId: Script["_id"];
 }
 
 export const getEndpointSchema = () => {
@@ -20,7 +20,7 @@ export const getEndpointSchema = () => {
     },
     authentication: { type: String, required: true },
     status: { type: Boolean, required: true, default: true },
-    scriptID: { type: String, required: false },
+    scriptId: { type: String, required: false },
   };
 
   return endpointSchemaDefinition;

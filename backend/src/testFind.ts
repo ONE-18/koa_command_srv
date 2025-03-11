@@ -1,6 +1,6 @@
 import Database from "./utils/database";
-import { MEndpoint /*, MScript, MUser*/ } from "./models";
 // import mongoose from "mongoose";
+import { /*MEndpoint, MScript, MUser*/ } from "./models";
 // import { authContrl } from "./controllers/authContrl";
 
 const db = new Database();
@@ -47,17 +47,22 @@ await db.connect();
 // console.log('all', all);
 
 // const userID = await authContrl.getUserID('token_seguro');
-const scripts = await Database.getUserScripts('67d02606ea45da231ef8eec4');
-console.log('scripts', scripts);
-const endpoints: typeof MEndpoint[] = [];
-for (const script of await scripts) {
-    const scriptEndpoints = await MEndpoint.find({ _id: script.endpointId }).exec();
-    scriptEndpoints.forEach((endpoint: typeof MEndpoint) => {
-        if (!endpoints.some(e => e._id.equals(endpoint._id))) {
-            endpoints.push(endpoint);
-        }
-    });
-}
-console.log('unique endpoints', endpoints);
+// const scripts = await Database.getUserScripts('67d02606ea45da231ef8eec4');
+// console.log('scripts', scripts);
+// const endpoints: typeof MEndpoint[] = [];
+// for (const script of await scripts) {
+//     const scriptEndpoints = await MEndpoint.find({ _id: script.endpointId }).exec();
+//     scriptEndpoints.forEach((endpoint: typeof MEndpoint) => {
+//         if (!endpoints.some(e => e._id.equals(endpoint._id))) {
+//             endpoints.push(endpoint);
+//         }
+//     });
+// }
+// console.log('unique endpoints', endpoints);
+
+const userID = "67d02606ea45da231ef8eec4";
+console.log('userID', userID);
+const script = await Database.getUserScriptById(userID, "67d02606ea45da231ef8eec8");
+console.log(script);
 
 process.exit(0);

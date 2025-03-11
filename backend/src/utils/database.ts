@@ -44,7 +44,9 @@ class Database {
     }
 
     static async getUserScriptById(userID:string, id: string): Promise<typeof MScript> {
-        return await MScript.find({ userId: userID}).findById(id);
+        // return await MScript.find({ userId: userID}).findById(id).exec();
+        const scripts = await this.getUserScripts(userID);
+        return scripts.find(script => script._id.equals(id));    
     }
 
     static async getUserByMail(email: string): Promise<typeof MUser> {
@@ -58,12 +60,13 @@ class Database {
     static async getEndpoints(userID: string): Promise<typeof MEndpoint[]> {
         const scripts = await this.getUserScripts(userID);
         const endpoints: typeof MEndpoint[] = [];
-        for (const script of await scripts) {
-            const scriptEndpoints = await MEndpoint.find({ _id: script.endpointId }).exec();
+        for (const script of scripts) {
+            const scriptEndpoints = await MEndpoint.find({ scriptId: script._id }).exec();
+            console.log('endpoints:', endpoints);
             scriptEndpoints.forEach((endpoint: typeof MEndpoint) => {
-                if (!endpoints.some(e => e._id.equals(endpoint._id))) {
-                    endpoints.push(endpoint);
-                }
+            if (!endpoints.some(e => e._id.equals(endpoint._id))) {
+                endpoints.push(endpoint);
+            }
             });
         }
         return endpoints;
