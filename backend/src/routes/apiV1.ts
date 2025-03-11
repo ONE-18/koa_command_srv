@@ -2,6 +2,7 @@ import Router from 'koa-router';
 import Database from '../utils/database';
 import { authContrl } from '../controllers/authContrl';
 import { authMiddleware } from '../middlewares/authMiddleware';
+import { MEndpoint } from '../models';
 
 const routerAPI = new Router({ prefix: '/api/v1' });
 
@@ -13,32 +14,34 @@ routerAPI.get('/info', async (ctx: any) => {
 });
 
 routerAPI.get('/scripts/:id', authMiddleware, async (ctx: any) => {
-    
     const userID = await authContrl.getUserID(ctx.headers.authorization);
-    
-    console.log('userID', userID);
-
     const script = await Database.getUserScriptById(userID, ctx.params.id);
-    
     ctx.body = script;
 });
 
 routerAPI.get('/scripts', authMiddleware, async (ctx: any) => {
     const userID = await authContrl.getUserID(ctx.headers.authorization);
-    
-    console.log('userID', userID);
-    
     const scripts = await Database.getUserScripts(userID);
     ctx.body = scripts;
 });
 
+routerAPI.get('/endpoints', async (ctx: any) => {
+    const userID = await authContrl.getUserID(ctx.headers.authorization);
+    const endpoints = await Database.getEndpoints(userID);
+    ctx.body = endpoints;
+});
+
 routerAPI.get('/endpoint/:id', async (ctx: any) => {
     const endId = ctx.params.id;
-    console.log('ID', endId);
     const endp = await Database.getEndpoint(endId);
-    console.log('ID name', endId, endp);
-
     ctx.body = endp;
+});
+
+routerAPI.patch('/endpoint/:id', async (ctx: any) => {
+    const endId = ctx.params.id;
+    const endp = await Database.getEndpoint(endId);
+    const updatedEndpoint = ctx.request.body;
+    ctx.body = await Database.update(MEndpoint, { ...endp, ...updatedEndpoint });
 });
 
 export default routerAPI;

@@ -25,14 +25,22 @@ class Database {
         }
     }
 
-    static async getUserScripts(userID: string): Promise<typeof MScript[]> {
-        const all = await MScript.find();
-        console.log('all', all);
-        const ret = await MScript.find({ userId: userID}).exec();
-        console.log('id', userID);
-        console.log('ret', ret);
-        return ret;
+    static async update<T extends mongoose.Models>(model: mongoose.Model<T>, obj: T): Promise<T | null> {
+        try {
+            console.log('Actualizando documento:', obj);
+            return await model.findByIdAndUpdate(obj._id, obj as T, { new: true }).exec();
+            // obj = obj as T;
+            // const updatedDoc = await model.findByIdAndUpdate(obj._id, obj, { new: true }).exec();
+            // console.log('tipo:', typeof obj);
+            // return updatedDoc;
+        } catch (err) {
+            console.error('Error al actualizar el documento:', err);
+            throw err;
+        }
+    }
 
+    static async getUserScripts(userID: string): Promise<typeof MScript[]> {
+        return await MScript.find({ userId: userID}).exec();
     }
 
     static async getUserScriptById(userID:string, id: string): Promise<typeof MScript> {
@@ -47,9 +55,24 @@ class Database {
         return await MUser.exists({ email: email, password: password });
     }
 
+    static async getEndpoints(userID: string): Promise<typeof MEndpoint[]> {
+        const scripts = await this.getUserScripts(userID);
+        const endpoints: typeof MEndpoint[] = [];
+        for (const script of await scripts) {
+            const scriptEndpoints = await MEndpoint.find({ _id: script.endpointId }).exec();
+            scriptEndpoints.forEach((endpoint: typeof MEndpoint) => {
+                if (!endpoints.some(e => e._id.equals(endpoint._id))) {
+                    endpoints.push(endpoint);
+                }
+            });
+        }
+        return endpoints;
+    }
+
     static async getEndpoint(id: string): Promise<typeof MEndpoint> {
         return await MEndpoint.findById(id).exec();
     }
+
 }
 
 export default Database;
