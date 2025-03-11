@@ -1,4 +1,5 @@
 import { PetitionType } from "../models";
+import type { Script } from "./Scripts";
 
 export type Endpoint = {
   _id: string;
@@ -6,6 +7,7 @@ export type Endpoint = {
   petitionType: PetitionType;
   authentication: string;
   status: boolean;
+  scriptID: Script["_id"];
 }
 
 export const getEndpointSchema = () => {
@@ -18,6 +20,7 @@ export const getEndpointSchema = () => {
     },
     authentication: { type: String, required: true },
     status: { type: Boolean, required: true, default: true },
+    scriptID: { type: String, required: false },
   };
 
   return endpointSchemaDefinition;

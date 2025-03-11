@@ -3,7 +3,6 @@ export interface Script {
     name: string;
     code: string;
     language: string;
-    endpointId: string;
     userId: string;
     __v: number;
 }

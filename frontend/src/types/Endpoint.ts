@@ -4,4 +4,5 @@ export type Endpoint = {
   petitionType: "GET" | "HEAD" | "PUT" | "POST" | "DELETE" | "PATCH" | "OPTIONS";
   authentication: string;
   status: boolean;
+  scriptID: string;
 }

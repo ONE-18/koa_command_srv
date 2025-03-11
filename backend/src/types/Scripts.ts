@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import type { User } from "./User";
-import type { Endpoint } from "./Endpoint";
 import { Language } from "../models";
 
 export type Script = {
@@ -9,7 +8,6 @@ export type Script = {
   code: string;
   language: Language;
   userId: User["_id"];
-  endpointId: Endpoint["_id"];
 }
 
 export const getScriptSchema = () => {
@@ -24,10 +22,6 @@ export const getScriptSchema = () => {
     userId: {
       type: String,
       required: true,
-    },
-    endpointId: {
-      type: String,
-      required: false,
     },
   };
 
