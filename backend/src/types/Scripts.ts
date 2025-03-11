@@ -19,7 +19,7 @@ export const getScriptSchema = () => {
     language: {
       type: String,
       enum: Language,
-      required: true,
+      required: false,
     },
     userId: {
       type: String,
@@ -27,7 +27,7 @@ export const getScriptSchema = () => {
     },
     endpointId: {
       type: String,
-      required: true,
+      required: false,
     },
   };
 
