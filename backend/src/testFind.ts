@@ -1,6 +1,7 @@
 import Database from "./utils/database";
 import { MEndpoint /*, MScript, MUser*/ } from "./models";
 // import mongoose from "mongoose";
+// import { authContrl } from "./controllers/authContrl";
 
 const db = new Database();
 await db.connect();
@@ -42,11 +43,21 @@ await db.connect();
 // ret = await MScript.find({ name: inp}).exec();
 // console.log('ret', ret);
 
-const all = await MEndpoint.find();
-console.log('all', all);
+// const all = await MEndpoint.find();
+// console.log('all', all);
 
-const endp = await MEndpoint.findById('67cea13acf66804756194199').exec();
-console.log('endp', endp);
-
+// const userID = await authContrl.getUserID('token_seguro');
+const scripts = await Database.getUserScripts('67d02606ea45da231ef8eec4');
+console.log('scripts', scripts);
+const endpoints: typeof MEndpoint[] = [];
+for (const script of await scripts) {
+    const scriptEndpoints = await MEndpoint.find({ _id: script.endpointId }).exec();
+    scriptEndpoints.forEach((endpoint: typeof MEndpoint) => {
+        if (!endpoints.some(e => e._id.equals(endpoint._id))) {
+            endpoints.push(endpoint);
+        }
+    });
+}
+console.log('unique endpoints', endpoints);
 
 process.exit(0);

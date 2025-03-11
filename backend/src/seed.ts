@@ -10,8 +10,10 @@ async function insertaciones() {
   
     const user = new MUser({
         name: 'admin',
-        password: 'admin',
-        email: 'mail@test.com',
+        // password: 'admin',
+        // email: 'mail@test.com',
+        password: '1',
+        email: '1',
         type: UserType.ADMIN
     });
 
@@ -50,7 +52,7 @@ async function insertaciones() {
         name: 'script2',
         code: 'echo "Hola mundo"',
         language: Language.SH,
-        userId: user2._id,
+        userId: user._id,
         endpointId: endpoint._id
     });
 
