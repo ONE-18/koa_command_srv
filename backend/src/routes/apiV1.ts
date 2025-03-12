@@ -2,7 +2,7 @@ import Router from 'koa-router';
 import Database from '../utils/database';
 import { authContrl } from '../controllers/authContrl';
 import { authMiddleware } from '../middlewares/authMiddleware';
-import { MEndpoint } from '../models';
+import { MEndpoint, Language } from '../models';
 
 const routerAPI = new Router({ prefix: '/api/v1' });
 
@@ -42,6 +42,10 @@ routerAPI.patch('/endpoint/:id', async (ctx: any) => {
     const endp = await Database.getEndpoint(endId);
     const updatedEndpoint = ctx.request.body;
     ctx.body = await Database.update(MEndpoint, { ...endp, ...updatedEndpoint });
+});
+
+routerAPI.get('/languages', async (ctx: any) => {
+    ctx.body = Language;
 });
 
 export default routerAPI;
