@@ -27,7 +27,8 @@ class Database {
 
     static async update<T extends mongoose.Models>(model: mongoose.Model<T>, obj: T): Promise<T | null> {
         try {
-            console.log('Actualizando documento:', obj);
+            // console.log('Actualizando documento:', obj);
+            // console.log('tipo:', model );
             return await model.findByIdAndUpdate(obj._id, obj as T, { new: true }).exec();
             // obj = obj as T;
             // const updatedDoc = await model.findByIdAndUpdate(obj._id, obj, { new: true }).exec();

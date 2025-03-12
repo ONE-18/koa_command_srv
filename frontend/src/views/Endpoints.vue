@@ -49,7 +49,7 @@ onMounted(async () => {
 
 const toggleStatus = async (endpoint: Endpoint) => {
   try {
-    await axiosInstance.patch(`/endpoint/${endpoint._id}`, { endpoint })
+    await axiosInstance.put(`/endpoint/${endpoint._id}`, { endpoint })
     console.log('Status updated successfully')
   } catch (error) {
     console.error('Error updating status:', error)
