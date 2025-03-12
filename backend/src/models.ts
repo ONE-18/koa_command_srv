@@ -15,7 +15,7 @@ enum UserType {
 }
 
 enum Language {
-  SH = 'sh',
+  SH = 'shell',
   JS = 'js',
 }
 
@@ -86,7 +86,5 @@ const MEndpoint = mongoose.model('Endpoint', endpointSchema);
 const scriptSchema = getScriptSchema();
 
 const MScript = mongoose.model('Script', scriptSchema);
-
-
 
 export { MUser, MEndpoint, MScript, UserType, Language, PetitionType, Idioms };
