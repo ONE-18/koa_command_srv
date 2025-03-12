@@ -8,7 +8,7 @@ import Database from './utils/database';
 import router from './routes/generalRoutes.ts';
 // import { login } from './controllers/loginCntrl';
 // import userPasswCheck from './services/userPasswCheck.ts'; // TODO: retirar test de aquí
-import { /*insertar,*/ consultar } from './seed.ts';
+import { /*insertar, consultar */ } from './seed.ts';
 
 const db = new Database();
 db.connect();
@@ -17,7 +17,7 @@ db.connect();
 // await insertar()
 
 // Consultar los datos insertados
-await consultar()
+// await consultar()
 
 // Cerrar la conexión
 // await db.disconnect();

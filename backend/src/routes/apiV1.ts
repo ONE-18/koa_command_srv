@@ -34,8 +34,8 @@ routerAPI.put('/scripts/:id', authMiddleware, async (ctx: any) => {
 });
 
 routerAPI.get('/endpoints', authMiddleware, async (ctx: any) => {
-    const userID = await authContrl.getUserID(ctx.headers.authorization);
-    const endpoints = await Database.getEndpoints(userID);
+    // const userID = await authContrl.getUserID(ctx.headers.authorization);
+    const endpoints = await Database.getEndpoints();
     ctx.body = endpoints;
 });
 

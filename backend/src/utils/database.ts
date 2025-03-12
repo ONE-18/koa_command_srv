@@ -58,19 +58,20 @@ class Database {
         return await MUser.exists({ email: email, password: password });
     }
 
-    static async getEndpoints(userID: string): Promise<typeof MEndpoint[]> {
-        const scripts = await this.getUserScripts(userID);
-        const endpoints: typeof MEndpoint[] = [];
-        for (const script of scripts) {
-            const scriptEndpoints = await MEndpoint.find({ scriptId: script._id }).exec();
-            console.log('endpoints:', endpoints);
-            scriptEndpoints.forEach((endpoint: typeof MEndpoint) => {
-            if (!endpoints.some(e => e._id.equals(endpoint._id))) {
-                endpoints.push(endpoint);
-            }
-            });
-        }
-        return endpoints;
+    static async getEndpoints(): Promise<typeof MEndpoint[]> {
+        // const scripts = await this.getUserScripts(userID);
+        // const endpoints: typeof MEndpoint[] = [];
+        // for (const script of scripts) {
+        //     const scriptEndpoints = await MEndpoint.find({ scriptId: script._id }).exec();
+        //     // console.log('endpoints:', endpoints);
+        //     scriptEndpoints.forEach((endpoint: typeof MEndpoint) => {
+        //     if (!endpoints.some(e => e._id.equals(endpoint._id))) {
+        //         endpoints.push(endpoint);
+        //     }
+        //     });
+        // }
+        // return endpoints;
+        return await MEndpoint.find().exec();
     }
 
     static async getEndpoint(id: string): Promise<typeof MEndpoint> {
