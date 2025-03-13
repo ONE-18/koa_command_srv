@@ -13,15 +13,19 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@sanbei101/vue-code-editor": "^2.0.10",
     "axios": "^1.8.1",
+    "highlight.js": "^11.11.1",
     "mongoose": "^8.12.1",
     "pinia": "^3.0.1",
     "vue": "^3.5.13",
+    "vue-prism-editor": "^2.0.0-alpha.2",
     "vue-router": "^4.5.0"
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.0",
     "@types/axios": "^0.14.4",
+    "@types/highlight.js": "^10.1.0",
     "@types/node": "^22.13.4",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vue/eslint-config-prettier": "^10.2.0",

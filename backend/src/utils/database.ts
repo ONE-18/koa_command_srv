@@ -29,16 +29,23 @@ class Database {
         try {
             // console.log('Actualizando documento:', obj);
             // console.log('tipo:', model );
-            return await model.findByIdAndUpdate(obj._id, obj as T, { new: true }).exec();
-            // obj = obj as T;
-            // const updatedDoc = await model.findByIdAndUpdate(obj._id, obj, { new: true }).exec();
-            // console.log('tipo:', typeof obj);
-            // return updatedDoc;
+            return await model.findByIdAndUpdate(obj._id, obj , { new: true }).exec();
         } catch (err) {
             console.error('Error al actualizar el documento:', err);
             throw err;
         }
     }
+
+    static async delete<T extends mongoose.Models>(model: mongoose.Model<T>, obj: T): Promise<T | null> {
+        try {
+            // console.log('Eliminando documento:', obj);
+            return await model.findByIdAndDelete(obj._id).exec();
+        } catch (err) {
+            console.error('Error al eliminar el documento:', err);
+            throw err;
+        }
+    }
+
 
     static async getUserScripts(userID: string): Promise<typeof MScript[]> {
         return await MScript.find({ userId: userID}).exec();
@@ -59,18 +66,6 @@ class Database {
     }
 
     static async getEndpoints(): Promise<typeof MEndpoint[]> {
-        // const scripts = await this.getUserScripts(userID);
-        // const endpoints: typeof MEndpoint[] = [];
-        // for (const script of scripts) {
-        //     const scriptEndpoints = await MEndpoint.find({ scriptId: script._id }).exec();
-        //     // console.log('endpoints:', endpoints);
-        //     scriptEndpoints.forEach((endpoint: typeof MEndpoint) => {
-        //     if (!endpoints.some(e => e._id.equals(endpoint._id))) {
-        //         endpoints.push(endpoint);
-        //     }
-        //     });
-        // }
-        // return endpoints;
         return await MEndpoint.find().exec();
     }
 
