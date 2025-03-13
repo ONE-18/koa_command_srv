@@ -3,6 +3,7 @@
     <div class="scripts">
       <h1>Scripts</h1>
       <p>Bienvenido a tu página de scripts.</p>
+      <button @click="navigateToCreate">Crear Nuevo Script</button>
       <table>
         <thead>
           <tr>
@@ -25,9 +26,7 @@
                 {{ endpoints.find((endp) => script._id == endp.scriptId)?.route }}
               </a>
             </td>
-            
-            <!-- <td>{{ endpoints.find((endp) => endp._id == script._id)?.petitionType }}</td> -->
-            
+
             <td>{{ script.language }}</td>
           </tr>
         </tbody>
@@ -39,12 +38,18 @@
 <script setup lang="ts">
 import defaultLayout from '../layouts/defaultLayout.vue'
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import axiosInstance from '../utils/axiosInstance'
 import type { Script } from '../types/Script'
 import type { Endpoint } from '../types/Endpoint'
 
 const scripts = ref<Script[]>([])
 const endpoints = ref<Endpoint[]>([])
+const router = useRouter()
+
+const navigateToCreate = () => {
+  router.push('/Editor')
+}
 
 onMounted(async () => {
   try {
@@ -72,6 +77,13 @@ onMounted(async () => {
 .scripts {
   padding: 20px;
   text-align: center;
+}
+
+button {
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 table {
