@@ -2,34 +2,33 @@
   <defaultLayout>
     <div class="script-editor">
       <h1>{{ isEditMode ? 'Edit Script' : 'Create Script' }}</h1>
-      <form @submit.prevent="handleSubmit">
+      <form @submit.prevent="handleFormSubmit">
         <div class="form-row">
           <div>
             <label for="name">Name:</label>
             <input id="name" v-model="script.name" required />
           </div>
-          <div>
+          <!-- <div>
             <label for="route">Route:</label>
-            <select id="route" v-model="currentEndp">
+            <select id="route" v-model="actualEndp">
               <option
                 v-for="endpoint in endpoints"
                 :key="endpoint._id"
                 :value="endpoint"
-                :selected="endpoint._id === currentEndp.value?._id"
+                :selected="endpoint._id === actualEndp?._id"
               >
                 {{ endpoint.route }}
               </option>
             </select>
+          </div> -->
+          <div>
+            <label for="language">Language:</label>
+            <select id="language" v-model="script.language" required>
+              <option v-for="language in languages" :key="language" :value="language">
+                {{ language }}
+              </option>
+            </select>
           </div>
-        </div>
-
-        <div>
-          <label for="language">Language:</label>
-          <select id="language" v-model="script.language" required>
-            <option v-for="language in languages" :key="language" :value="language">
-              {{ language }}
-            </option>
-          </select>
         </div>
 
         <div class="editor-container">
@@ -41,9 +40,11 @@
           />
         </div>
 
-        <div>
-          <button type="submit" @click.prevent="handleSubmit(script)">{{ isEditMode ? 'Update' : 'Create' }}</button>
-          <button v-if="isEditMode" @click.prevent="handleDelete">Delete</button>
+        <div class="form-row">
+          <button class="delete" v-if="isEditMode" @click.prevent="handleDelete">Delete</button>
+          <button class="submit" type="submit" @click.prevent="handleSubmit(script)">
+            {{ isEditMode ? 'Update' : 'Create' }}
+          </button>
         </div>
       </form>
     </div>
@@ -52,11 +53,10 @@
 
 <script setup lang="ts">
 import defaultLayout from '../layouts/defaultLayout.vue'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, getCurrentWatcher } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axiosInstance from '../utils/axiosInstance'
 import type { Script } from '../types/Script'
-import type { Endpoint } from '../types/Endpoint'
 // @ts-ignore
 import { PrismEditor } from 'vue-prism-editor'
 import 'vue-prism-editor/dist/prismeditor.min.css'
@@ -67,8 +67,9 @@ import 'highlight.js/lib/common'
 const route = useRoute()
 const router = useRouter()
 const isEditMode = ref(false)
-const endpoints = ref<Endpoint[]>([])
-const currentEndp = ref<Endpoint>()
+// import type { Endpoint } from '../types/Endpoint'
+// const endpoints = ref<Endpoint[]>([])
+// const initialEndp = ref<Endpoint>()
 const scriptTextarea = ref<HTMLTextAreaElement | null>(null)
 const languages = ref<string[]>([])
 const code = ref('console.log("Hello, Vue!");')
@@ -82,6 +83,15 @@ const script = ref<Script>({
   __v: 0,
 })
 
+// const actualEndp = ref<Endpoint>({
+//       _id: '',
+//       route: 'No route',
+//       petitionType: 'GET',
+//       authentication: '',
+//       status: false,
+//       scriptId: '',
+//     })
+
 const fetchScript = async (scriptId: string) => {
   try {
     const response = await axiosInstance.get(`/scripts/${scriptId}`)
@@ -92,24 +102,25 @@ const fetchScript = async (scriptId: string) => {
   }
 }
 
-const fetchEndpoints = async () => {
-  try {
-    const response = await axiosInstance.get('/endpoints')
-    endpoints.value = response.data
-    endpoints.value.unshift({
-      _id: '',
-      route: 'No route',
-      petitionType: 'GET',
-      authentication: '',
-      status: false,
-      scriptId: '',
-    })
-    currentEndp.value = endpoints.value.find((endp) => endp.scriptId === script.value._id)
-    console.log('Current endpoint:', currentEndp.value)
-  } catch (error) {
-    console.error('Error fetching endpoints:', error)
-  }
-}
+// const fetchEndpoints = async () => {
+//   try {
+//     const response = await axiosInstance.get('/endpoints')
+//     endpoints.value = response.data
+//     endpoints.value.unshift(actualEndp.value)
+//     initialEndp.value = endpoints.value.find((endp) => endp.scriptId === script.value._id)
+//     console.log('Current endpoint:', initialEndp.value)
+//     actualEndp.value = initialEndp.value || {
+//       _id: '',
+//       route: '',
+//       petitionType: 'GET',
+//       authentication: '',
+//       status: false,
+//       scriptId: '',
+//     }
+//   } catch (error) {
+//     console.error('Error fetching endpoints:', error)
+//   }
+// }
 
 const fetchLanguages = async () => {
   try {
@@ -142,23 +153,46 @@ const highlightCode = (code: string) => {
   }
 }
 
-const handleSubmit = async (script: Script) => {
+const handleFormSubmit = async (event: Event) => {
+  event.preventDefault()
+  await handleSubmit(script.value)
+}
+
+const handleSubmit = async (script: Script /*, endpoint: Endpoint*/) => {
   try {
     if (isEditMode.value) {
-      console.log('Updating script:', script)
+      // console.log('Updating script:', script)
       await axiosInstance.put(`/scripts/${route.params.id}`, script)
     } else {
       await axiosInstance.post('/scripts', script)
     }
-    router.push('/scripts')
+    // router.push('/scripts')
   } catch (error) {
     console.error('Error saving script:', error)
   }
+
+  // // Update endpoint
+  // if (endpoint._id !== initialEndp.value?._id) {
+  //   // 1º Update old endpoint
+  //   if (initialEndp.value?._id) {
+  //     initialEndp.value.scriptId = ''
+  //     console.log(initialEndp)
+  //     console.log('old endp:', initialEndp.value)
+  //     await axiosInstance.put(`/endpoints/${initialEndp.value._id}`, initialEndp.value)
+  //   }
+
+  //   // 2º Update new endpoint
+  //   if (endpoint._id) {
+  //     endpoint.scriptId = script._id
+  //     console.log('new endp:', endpoint)
+  //     await axiosInstance.put(`/endpoints/${initialEndp.value?._id}`, endpoint)
+  //   }
+  // }
 }
 
 const handleDelete = async () => {
   try {
-    await axiosInstance.delete(`/scripts/${route.params.id}`)
+    await axiosInstance.delete(`/scripts/${script.value._id}`)
     router.push('/scripts')
   } catch (error) {
     console.error('Error deleting script:', error)
@@ -174,7 +208,7 @@ onMounted(async () => {
   } else {
     console.log('Creating new script')
   }
-  await fetchEndpoints()
+  // await fetchEndpoints()
   await fetchLanguages()
 
   if (scriptTextarea.value) {
@@ -184,6 +218,17 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+
+@font-face{
+  font-family: 'nothing';
+  src: url('../assets/nothing-font-5x7.ttf');
+}
+
+h1 {
+  font-size: 70px;
+  font-family: 'nothing';
+}
+
 .script-editor {
   padding: 20px;
   text-align: center;
@@ -198,7 +243,8 @@ form {
 .form-row {
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  width: 80vw;
+  
 }
 
 div {
@@ -219,6 +265,11 @@ textarea {
 button {
   margin: 5px;
   padding: 10px 20px;
+}
+
+.delete {
+  background-color: #ff0000;
+  color: #000000;
 }
 
 .editor-container {
