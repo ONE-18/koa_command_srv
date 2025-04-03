@@ -23,6 +23,7 @@ const email = ref('')
 const password = ref('')
 const errorMessage = ref('')
 const router = useRouter()
+import { identifyUmamiSession } from '@jaseeey/vue-umami-plugin';
 
 const handleLogin = async () => {
   try {
@@ -31,6 +32,9 @@ const handleLogin = async () => {
       email: email.value,
       password: password.value,
     })
+    identifyUmamiSession({
+      email: email.value,
+    });
     console.log(response.data)
     // Almacena el token recibido en el localStorage del navegador
     localStorage.setItem('token', response.data.token)
